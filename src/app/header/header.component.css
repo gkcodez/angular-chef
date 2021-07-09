@@ -1,0 +1,8 @@
+nav>a{
+    margin-left: 1%;
+}
+
+.active {
+    border-bottom: 0.15em solid white;
+
+}

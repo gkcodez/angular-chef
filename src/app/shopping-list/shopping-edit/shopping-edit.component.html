@@ -1,0 +1,38 @@
+<form (ngSubmit)="addIngredient(shoppingForm)" #shoppingForm="ngForm">
+  <div class="row">
+    <div class="col-md-7 col-12">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control"
+        name="name"
+        ngModel
+        required
+      />
+    </div>
+    <div class="col-md-5 col-12">
+      <label for="amount">Amount</label>
+      <input
+        type="number"
+        id="amount"
+        class="form-control"
+        name="amount"
+        ngModel
+        required
+        pattern="^[1-9]+[0-9]*$"
+      />
+    </div>
+  </div>
+  <div class="col-12 mt-3 d-flex justify-content-start align-items-center">
+    <button
+      class="btn btn-success m-2"
+      type="submit"
+      [disabled]="!shoppingForm.valid"
+    >
+      Add
+    </button>
+    <button class="btn btn-danger m-2" type="button">Delete</button>
+    <button class="btn btn-primary m-2" type="button">Clear</button>
+  </div>
+</form>

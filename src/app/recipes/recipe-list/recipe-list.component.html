@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="row">
+      <div class="col-12">
+          <button class="btn btn-success" routerLink="new">New Recipe</button>
+          <hr>
+        <ul class="list-group">
+          <li class="list-group-item" 
+          *ngFor="let recipe of recipes; let i=index;" style="cursor: pointer;"  
+          [routerLink]="[i]" routerLinkActive="active">
+          <div class="recipe-item pt-3 pb-3 d-flex justify-content-around align-items-center">
+              <div class="recipe-text">
+                  <h4 class="recipe-heading">{{recipe.name}}</h4>
+                  <p class="recipe-description">{{recipe.description}}</p>
+              </div>
+            <div class="image-parent">
+                <img [src]="recipe.imagePath" class="img-fluid" alt="recipe-image">
+            </div>
+          </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>

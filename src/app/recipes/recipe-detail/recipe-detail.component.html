@@ -1,0 +1,37 @@
+<div class="container-fluid" *ngIf="recipe; else selectRecipeTemplate">
+    <div class="row mt-3">
+        <div class="col-8">
+            <h4 class="text-primary">{{recipe.name}}</h4>
+        </div>
+        <div class="col-4 dropdown" appDropdown>
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Manage Recipe
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="cursor: pointer;">
+                <li><a class="dropdown-item" (click)="addToShoppingList(recipe.ingredients)">To Shopping List</a></li>
+                <li><a class="dropdown-item" (click)="editRecipe()">Edit Recipe</a></li>
+                <li><a class="dropdown-item">Delete Recipe</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-xs-12">
+            <p>{{recipe.description}}</p>
+            <ul class="list-group mt-3">
+                <a class="list-group-item"
+                *ngFor="let ingredient of recipe.ingredients; let i=index;">{{ingredient.name}} ({{ingredient.amount}})</a>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <img [src]="recipe.imagePath" alt="recipe-image" class="img-responsive">
+        </div>
+    </div>
+
+</div>
+<ng-template #selectRecipeTemplate>
+    <p>Please select a Recipe!</p>
+</ng-template>
