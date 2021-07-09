@@ -1,4 +1,4 @@
-<form (ngSubmit)="addIngredient(shoppingForm)" #shoppingForm="ngForm">
+<form (ngSubmit)="submitForm(shoppingForm)" #shoppingForm="ngForm">
   <div class="row">
     <div class="col-md-7 col-12">
       <label for="name">Name</label>
@@ -30,9 +30,9 @@
       type="submit"
       [disabled]="!shoppingForm.valid"
     >
-      Add
+      {{editMode ? 'Save' : 'Add'}}
     </button>
-    <button class="btn btn-danger m-2" type="button">Delete</button>
-    <button class="btn btn-primary m-2" type="button">Clear</button>
+    <button class="btn btn-danger m-2" type="button" (click)="deleteIngredient()" [disabled]="!editMode">Delete</button>
+    <button class="btn btn-primary m-2" type="button" (click)="clearIngredient()" [disabled]="!editMode">Clear</button>
   </div>
 </form>
