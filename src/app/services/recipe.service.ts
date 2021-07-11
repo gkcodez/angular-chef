@@ -1,35 +1,65 @@
-import { EventEmitter, Output } from "@angular/core";
-import { Recipe } from "../recipes/recipe.model";
-import { Ingredient } from "../shared/ingredient.model";
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
+import { Recipe } from '../recipes/recipe.model';
+import { Ingredient } from '../shared/ingredient.model';
+import { ShoppingService } from '../services/shopping.service';
+
+@Injectable()
 export class RecipeService {
-    
- selectedRecipe = new EventEmitter<Recipe>();
+  recipesChanged = new Subject<Recipe[]>();
 
+  private recipes: Recipe[] = [];
 
-    private recipes: Recipe[] = [
-        new Recipe('Salad', 
-        'Fresh Vegetable Salad with mixed Fruits', 
-        'https://images.pexels.com/photos/1059905/pexels-photo-1059905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-        [
-          new Ingredient('Tomato', 1),
-        new Ingredient('Carrot', 5)
-      ]),
-        new Recipe('Noodles', 
-        'Hot chicken noodles with tomato sauce', 
-        'https://images.pexels.com/photos/14737/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-        [
-          new Ingredient('Cheese', 2),
-        new Ingredient('Butter', 4)
-      ])
-      ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'Tasty Schnitzel',
+  //     'A super-tasty Schnitzel - just awesome!',
+  //     'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
+  //     [
+  //       new Ingredient('Meat', 1),
+  //       new Ingredient('French Fries', 20)
+  //     ]),
+  //   new Recipe('Big Fat Burger',
+  //     'What else you need to say?',
+  //     'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
+  //     [
+  //       new Ingredient('Buns', 2),
+  //       new Ingredient('Meat', 1)
+  //     ])
+  // ];
 
-      getRecipes(){
-        return this.recipes.slice();
-      }
+  constructor(private slService: ShoppingService) { }
 
-      getRecipeWithId(id: number){
-        return this.recipes.slice()[id];
-      }
+  setRecipes(recipes) {
+    this.recipes = recipes;
+    this.recipesChanged.next(recipes.slice());
+  }
+  
+  getRecipes() {
+    return this.recipes;
+  }
 
+  getRecipe(index: number) {
+    return this.recipes[index];
+  }
+
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
+  }
 }

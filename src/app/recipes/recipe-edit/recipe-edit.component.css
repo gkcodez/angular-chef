@@ -1,0 +1,9 @@
+img {
+  margin-top: 1%;
+  max-width: 50%;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 0.15em solid red;
+}
