@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
 .dropdown-open .dropdown-menu {
-    display: block;
-    margin-top: 0;
- }
+  display: block;
+  margin-top: 0;
+}
+
+.form-group {
+  margin-top: 1.2em;
+}

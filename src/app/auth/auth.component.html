@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+      <form (ngSubmit)="submitForm()" [formGroup]="authForm">
+        <div class="form-group">
+          <label for="email">Email</label
+          ><input
+            type="text"
+            class="form-control"
+            id="email"
+            formControlName="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label
+          ><input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+          />
+        </div>
+        <div class="form-group d-flex justify-content-start">
+          <button
+            class="btn btn-primary me-2"
+            type="submit"
+            [disabled]="authForm.invalid"
+          >
+            {{ isLoginMode ? "Login" : "Signup" }}
+          </button>
+          <button class="btn btn-danger" type="button" (click)="switchMode()">
+            Switch to {{ !isLoginMode ? "Login" : "Signup" }} Mode
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
