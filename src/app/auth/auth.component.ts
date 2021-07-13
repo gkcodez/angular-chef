@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class AuthComponent implements OnInit {
   errorMessage: string = null;
 
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -31,18 +32,24 @@ export class AuthComponent implements OnInit {
   submitForm() {
     const email = this.authForm.value.email;
     const password = this.authForm.value.password;
-    if(this.isLoginMode){
-      // ...
+    this.isLoading = true;
+    let authObservable = null;
+
+    if (this.isLoginMode) {
+      authObservable = this.authService.login(email, password)
     } else {
-      this.isLoading = true;
-      this.authService.signup(email, password).subscribe(authResponse =>{
-        console.log(authResponse);
-        this.isLoading = false
-      }, error => {
-        this.errorMessage = error.message;
-        this.isLoading = false;
-      })
+      authObservable = this.authService.signup(email, password);
     }
+
+    authObservable.subscribe(authResponse => {
+      console.log(authResponse);
+      this.isLoading = false;
+      this.router.navigate(['/recipes']);
+    }, error => {
+      this.isLoading = false;
+      this.errorMessage = error;
+    })
+
   }
 
 }

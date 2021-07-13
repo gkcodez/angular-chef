@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 import { DataStorageService } from '../services/data-storage.service';
 
 @Component({
@@ -8,9 +9,13 @@ import { DataStorageService } from '../services/data-storage.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private dataStorageService: DataStorageService) { }
+  isAuthenticated: boolean = false;
+  constructor(private dataStorageService: DataStorageService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.user.subscribe(user => {
+      this.isAuthenticated = !!user;
+    })
   }
 
   saveRecipeData() {
