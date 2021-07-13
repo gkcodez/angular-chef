@@ -17,6 +17,7 @@ export class DataStorageService {
     this.httpClient.put('https://fb-angular-chef-default-rtdb.firebaseio.com/recipes.json', recipes)
       .subscribe(recipes => {
         console.log(recipes);
+        alert("Recipe data saved!")
       })
   }
 
