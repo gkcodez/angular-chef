@@ -17,13 +17,13 @@ export class AuthComponent implements OnInit {
   })
 
   isLoading: boolean = false;
-  errorMessage: string = null;
+  errorMessage: string;
 
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    
+
   }
 
   switchMode() {
@@ -44,13 +44,19 @@ export class AuthComponent implements OnInit {
 
     authObservable.subscribe(authResponse => {
       console.log(authResponse);
-      this.router.navigate(['/recipes']);
-      this.isLoading = false;
+      if (authResponse) {
+        this.router.navigate(['/recipes']);
+        this.isLoading = false;
+      }
     }, error => {
       this.isLoading = false;
       this.errorMessage = error;
     })
 
+  }
+
+  closeMessage() {
+    this.errorMessage = null;
   }
 
 }
