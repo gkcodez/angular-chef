@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
+  ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { DataStorageService } from '../services/data-storage.service';
 import { RecipeService } from '../services/recipe.service';

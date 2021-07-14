@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { User } from './user.model';
 
 interface AuthResponse {
@@ -24,7 +25,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   signup(email: string, password: string) {
-    return this.http.post<AuthResponse>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDmhrMARQzZIAN61yzyVVsPRzS4hLK0PV4',
+    return this.http.post<AuthResponse>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + environment.firebaseAuthKey,
       {
         email: email,
         password: password,
@@ -40,6 +41,7 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
     const user = new User(email, id, token, expirationDate);
     this.user.next(user);
+    this.router.navigate(['/recipes']);
     localStorage.setItem('currentUser', JSON.stringify(user))
     this.autoLogout(+expiresIn * 1000);
   }
@@ -62,7 +64,7 @@ export class AuthService {
       new Date(currentUser._tokenExpirationDate
       ));
     this.user.next(user);
-    const expiresIn =  new Date(currentUser._tokenExpirationDate).getTime() - new Date().getTime();
+    const expiresIn = new Date(currentUser._tokenExpirationDate).getTime() - new Date().getTime();
     this.autoLogout(expiresIn);
   }
 
@@ -73,7 +75,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<AuthResponse>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmhrMARQzZIAN61yzyVVsPRzS4hLK0PV4',
+    return this.http.post<AuthResponse>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + environment.firebaseAuthKey,
       {
         email: email,
         password: password,
@@ -108,7 +110,7 @@ export class AuthService {
     this.user.next(null);
     this.router.navigate(['/auth'])
     localStorage.removeItem('currentUser');
-    if(this.expirationTimer){
+    if (this.expirationTimer) {
       clearTimeout(this.expirationTimer);
     }
     this.expirationTimer = null;
