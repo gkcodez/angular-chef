@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent implements OnInit {
 
-  isLoginMode = false;
+  isLoginMode = true;
   authForm = new FormGroup({
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
@@ -23,6 +23,7 @@ export class AuthComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    
   }
 
   switchMode() {
@@ -43,8 +44,8 @@ export class AuthComponent implements OnInit {
 
     authObservable.subscribe(authResponse => {
       console.log(authResponse);
-      this.isLoading = false;
       this.router.navigate(['/recipes']);
+      this.isLoading = false;
     }, error => {
       this.isLoading = false;
       this.errorMessage = error;

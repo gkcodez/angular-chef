@@ -16,9 +16,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user.subscribe(user => {
       this.isAuthenticated = !!user;
-      if(!this.isAuthenticated){
-        this.router.navigate(['/auth']);
-      }
+      // if(!this.isAuthenticated){
+      //   this.router.navigate(['/auth']);
+      // }
     })
   }
 
@@ -28,5 +28,9 @@ export class HeaderComponent implements OnInit {
 
   fetchRecipeData() {
     this.dataStorageService.fetchRecipes().subscribe();
+  }
+
+  onLogout(){
+    this.authService.logout();
   }
 }
